@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AUTOMOTIVE WORLD WIKI — Бортовой компьютер</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+  <!-- Кастомный курсор-машинка -->
+  <div id="carCursor" class="custom-cursor" aria-hidden="true">🏎️</div>
+
+  <!-- ОКНО ПРИВЕТСТВИЯ (WELCOME MODAL) -->
+  <div id="welcomeModal" class="modal-overlay">
+    <div class="modal-card">
+      <h2>👋 Добро пожаловать!</h2>
+      <p>Вы открыли информационную базу популярных автомобилей мира</p>
+      <div class="modal-info-box">
+        <p>Портал разработан программистом <span onclick="activateEasterEgg()" class="author-highlight">Кузьменко Матвеем</span> на JavaScript. Фильтруйте машины по маркам, запускайте тест-драйв, калькулятор кредита в ЕС и сравнивайте модели лоб в лоб!</p>
+      </div>
+      <button class="modal-close-btn" onclick="closeWelcomeModal(); playClick();">ПОНЯТНО, ПЕРЕЙТИ К МАШИНАМ →</button>
+    </div>
+  </div>
+
+  <!-- ГЛАВНЫЙ ЭКРАН ПОРТАЛА (ИЗНАЧАЛЬНО СКРЫТ) -->
+  <div class="wiki-container" id="mainContainer" style="display: none;">
+    <header class="main-header">
+      <h1 onclick="activateEasterEgg(); playClick();">🏁 AUTOMOTIVE WORLD WIKI</h1>
+      <p class="tagline">Разработка программиста: <span class="author-name">Кузьменко Матвея</span></p>
+      
+      <!-- НАВИГАЦИОННОЕ МЕНЮ -->
+      <nav class="nav-menu">
+        <button class="nav-btn active" id="btn-about" onclick="switchSection('about'); playClick();">📋 О сайте</button>
+        <button class="nav-btn" id="btn-catalog" onclick="switchSection('catalog'); playClick();"> 🚘 Марки машин</button>
+        <button class="nav-btn" id="btn-guide" onclick="switchSection('guide'); playClick();">⚙️ Инструкция</button>
+        <button class="nav-btn" id="btn-ratings" onclick="switchSection('ratings'); playClick();">🏆 Топ-10 машин</button>
+        <button class="nav-btn" id="btn-exit" onclick="exitSite(); playClick();">❌ Выход</button>
+      </nav>
+    </header>
+
+    <main class="content-wrapper">
+      <!-- РАЗДЕЛ: О ПРОЕКТЕ -->
+      <section id="sectionAbout" class="info-section">
+        <h2>📋 О проекте</h2>
+        <p>Этот масштабный интерактивный портал — результат колоссальной и упорной 
+  работы, на которую ушло неделя ежедневного кодинга и проектирования. Здесь собрана 
+  уникальная, удобная и понятная база данных для автолюбителей всех поколений. 
+  В проекте реализованы реальные технические характеристики автомобилей, 
+  динамические неоновые фильтры, симулятор заездов на 402 метра и продвинутый 
+  калькулятор автокредитования с финтех-логикой. Каждый элемент интерфейса, 
+  каждая строчка кода и визуальная деталь создавались с нуля, чтобы объединить 
+  мощный функционал и эстетичный дизайн в единую экосистему. Спасибо за прочтение и приятного времепровождения на сайте! 
+</p>
+<small style="opacity: 0.6;">Большая часть сайта была создана одним человеком, поэтому не судите сайт строго, так как он был создан начинающим программистом.</small>
+
+        
+      </section>
+
+      <!-- РАЗДЕЛ: ИНСТРУКЦИЯ -->
+      <section id="sectionGuide" class="info-section" style="display: none;">
+        <h2>⚙️ Бортовое руководство</h2>
+        <p>Добро пожаловать в бортовое руководство передового автопортала! В разделе 
+  «Марки машин» вы можете использовать динамические неоновые фильтры для 
+  мгновенной сортировки автомобилей по классам (Спорт, Городские) и брендам. 
+  Каждая карточка содержит детальные характеристики: от точного времени 
+  разгона до 100 км/ч до показателей надёжности. Для проверки динамики 
+  доступен виртуальный симулятор заездов на легендарную дистанцию в 402 метра. 
+  Инструмент «Расчёт автокредита» позволяет мгновенно вычислить ежемесячный 
+  платёж на основе вашего дохода и стоимости машины, а функция «Испытать удачу» 
+  автоматически подберёт для вас случайную модель из каталога. В разделе «О проекте» вы можете прочитать о сайте и о его создании. В разделе «Топ-10 машин» вы сможете посмотреть на топ-10 машин по разным категориям. Для выхода с сайта используйте кнопку «Выход».</p>
+      </section>
+
+      <!-- РАЗДЕЛ: ТОП-10 -->
+      <section id="sectionRatings" class="info-section" style="display: none;">
+        <h2>🏆 Десять легендарных автомобилей мира</h2>
+        <p>Редакционная подборка знаковых серийных и спортивных моделей. В рейтинге есть автомобили, которых нет в каталоге проекта.</p>
+        <div class="rating-tabs" role="group" aria-label="Критерий рейтинга">
+          <button type="button" class="rating-tab active" data-rating="reliability" onclick="switchRatingTable('reliability')">Надёжность</button>
+          <button type="button" class="rating-tab" data-rating="comfort" onclick="switchRatingTable('comfort')">Удобство</button>
+          <button type="button" class="rating-tab" data-rating="speed" onclick="switchRatingTable('speed')">Скорость</button>
+        </div>
+        <p id="ratingDescription" class="rating-description" aria-live="polite">Подборка автомобилей, известных ресурсом и практичностью. Рейтинг редакционный.</p>
+        <div class="rating-table-wrap">
+          <table class="rating-table">
+            <thead><tr><th>Место</th><th>Автомобиль</th><th>Марка</th><th>Чем знаменит</th></tr></thead>
+            <tbody id="ratingTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- РАЗДЕЛ: КАТАЛОГ -->
+      <section id="sectionCatalog" style="display: none;">
+        <div class="tabs-menu">
+          <button class="tab-btn active" id="brand-all" onclick="filterBrand('all'); playClick();">Все марки</button>
+          <button class="tab-btn" id="brand-audi" onclick="filterBrand('audi'); playClick();">Audi</button>
+          <button class="tab-btn" id="brand-bmw" onclick="filterBrand('bmw'); playClick();">BMW</button>
+          <button class="tab-btn" id="brand-porsche" onclick="filterBrand('porsche'); playClick();">Porsche</button>
+          <button class="tab-btn" id="brand-mercedes" onclick="filterBrand('mercedes'); playClick();">Mercedes</button>
+          <button class="tab-btn" id="brand-nissan" onclick="filterBrand('nissan'); playClick();">Nissan</button>
+          <button class="tab-btn" id="brand-toyota" onclick="filterBrand('toyota'); playClick();">Toyota</button>
+          <button class="tab-btn" id="brand-honda" onclick="filterBrand('honda'); playClick();">Honda</button>
+          <button class="tab-btn" id="brand-lexus" onclick="filterBrand('lexus'); playClick();">Lexus</button>
+          <button class="tab-btn" id="brand-volkswagen" onclick="filterBrand('volkswagen'); playClick();">Volkswagen</button>
+          <button class="tab-btn" id="brand-ford" onclick="filterBrand('ford'); playClick();">Ford</button>
+        </div>
+
+        <div class="class-filters">
+          <span>Класс:</span>
+          <button class="sub-btn active" id="classAll" onclick="filterClass('all'); playClick();">Все</button>
+          <button class="sub-btn" id="classSport" onclick="filterClass('sport'); playClick();">🔥 Спорт</button>
+          <button class="sub-btn" id="classCity" onclick="filterClass('city'); playClick();">🚗 Городские</button>
+        </div>
+
+        <div class="catalog-tools">
+          <div class="credit-box">
+            <p class="tool-eyebrow">ИНСТРУМЕНТЫ ПОКУПАТЕЛЯ</p>
+            <h3>Расчёт автокредита</h3>
+            <p class="tool-copy">Предварительный расчёт платежа в евро на 5 лет под 6% годовых.</p>
+            <form class="credit-form" id="creditForm">
+              <div class="suggestion-wrap">
+                <input type="search" id="creditCarInput" placeholder="Модель, например Audi A6" autocomplete="off" aria-label="Модель автомобиля">
+                <div id="searchSuggestions" class="suggestions-box"></div>
+              </div>
+              <input type="number" id="creditSalaryInput" min="1" step="1" placeholder="Доход в месяц (€)" aria-label="Доход в месяц в евро">
+              <input type="number" id="creditDownPaymentInput" min="0" step="100" value="0" placeholder="Первый взнос (€)" aria-label="Первый взнос в евро">
+              <button type="button" id="creditCalculateBtn">Рассчитать платёж <span aria-hidden="true">→</span></button>
+            </form>
+            <p id="creditResult" class="result-placeholder" aria-live="polite">Укажите модель, ежемесячный доход и первый взнос.</p>
+            <p class="credit-disclaimer">Оценка ориентировочная и не является предложением банка.</p>
+          </div>
+          <div class="luck-box">
+            <span class="luck-mark" aria-hidden="true">↗</span>
+            <p class="tool-eyebrow">НЕ ЗНАЕТЕ, С ЧЕГО НАЧАТЬ?</p>
+            <h3>Доверьтесь случаю</h3>
+            <p>Выберем случайную модель из каталога и сразу откроем её характеристики.</p>
+            <button class="action-btn" type="button" onclick="triggerRandomCar(); playClick();">Испытать удачу</button>
+          </div>
+        </div>
+
+        <div class="cars-grid" id="carsGrid"></div>
+      </section>
+
+    </main>
+
+    <!-- СРАВНЕНИЕ МАШИН -->
+    <div id="battleArena" class="battle-box" style="display:none;"></div>
+
+    <!-- РАСШИРЕННЫЙ ЭКРАН -->
+    <div id="extendedView" class="extended-panel" style="display: none;"></div>
+
+    <!-- ПОДВАЛ -->
+    <footer class="site-footer">
+      <p>© 2026 Automotive World Wiki. Разработка Кузьменко Матвея.</p>
+      <button class="scroll-top-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); playClick();">Наверх ↑</button>
+    </footer>
+  </div>
+
+</body>
+</html>
